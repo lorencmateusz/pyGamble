@@ -24,6 +24,7 @@ symbol_value = {
 
 def check_winnings(columns, lines, bet, values):
     winnings = 0
+    winner_lines = 0
     for line in range(lines):
         symbol = columns[0][line]
         for column in columns:
@@ -32,7 +33,8 @@ def check_winnings(columns, lines, bet, values):
                 break
         else:
             winnings += values[symbol] * bet
-    return winnings
+            winner_lines += 1
+    return winnings, winner_lines
 
 
 def get_spin(rows, cols, symbols):
@@ -119,8 +121,9 @@ def game(balance):
 
     slots = get_spin(ROWS, COLS, symbol_count)
     print_machine(slots)
-    winning = check_winnings(slots, lines, bet, symbol_value)
-    print(f'You won {winning}')
+    winning, winner_lines = check_winnings(slots, lines, bet, symbol_value)
+    print(f'You won {winning} on {winner_lines} lines') if winner_lines != 1 else print(f'You won {winning} '
+                                                                                        f'on {winner_lines} line')
     return winning - total_bet
 
 
